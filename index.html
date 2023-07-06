@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Store | Categories</title>
+    <link rel="stylesheet" href="vendor/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/index.css">
+</head>
+
+<body>
+
+    <header>
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-white">
+            <div class="container">
+                <button class="navbar-toggler" type="button" data-mdb-toggle="collapse"
+                    data-mdb-target="#navbarExample01" aria-controls="navbarExample01" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <i class="fas fa-bars"></i>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarExample01">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item active">
+                            <a class="nav-link" aria-current="page" href="#">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Categories</a>
+                        </li>
+                    </ul>
+
+                    <form class="d-flex">
+                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-primary" type="submit">Search</button>
+                    </form>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Navbar -->
+
+        <!-- Hero -->
+        <div class="p-5 text-center bg-light">
+            <h1 class="mt-4 mb-4">All Categories Page</h1>
+        </div>
+        <!-- Hero -->
+    </header>
+    <main class="mt-5">
+        <div class="container-fluid">
+            <div class="row w-85">
+                <div class="col-md-3">
+                    <h3>Filter by Category:</h3>
+                    <div class="list-group" id="categories">
+                        <a href="#" class="list-group-item list-group-item-action active">All</a>
+                        <a href="#" class="list-group-item list-group-item-action">Category 1</a>
+                        <a href="#" class="list-group-item list-group-item-action">Category 2</a>
+                        <a href="#" class="list-group-item list-group-item-action">Category 3</a>
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <div class="row" id="products">
+                        <div class="d-flex justify-content-center mt-5 pt-5">
+                            Loading...
+                        </div>
+                        <!-- Add more items here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script src="vendor/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/index.js"></script>
+</body>
+
+</html>
