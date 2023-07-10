@@ -46,14 +46,17 @@ function displayProducts(products) {
             result += `
             <div class="col-md-4">
                 <div class="card p-2">
-                    <a href="#"><img src="${product.images[0]}" class="card-img-top img-fluid img-responsive" alt="Image 1"></a>
+                    <a href="pages/product.html?id=${product.id}"><img src="${product.images[0]}" class="card-img-top img-fluid img-responsive" alt="Image 1"></a>
                     <div class="card-body">
                         <div class="d-flex align-items-center justify-content-between">
                             <div>
                                 <h5 class="card-title">${(product.title).split(' ').slice(0, 2).join(' ')}</h5>
                                 <p class="card-text">${product.category}</p>
                             </div>
-                            <span>$ ${product.price}</span>
+                            <div>
+                                <span class="d-block">$ ${product.price}</span>
+                                <button id="add-to-cart-btn" class="cart btn bg-warning text-white"><img class="w-100" src="assets/img/shopping-cart.png"/></button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -121,6 +124,22 @@ function addClickListenerToBtn(listGroupItems) {
             displayProducts(products)
         })
     })
+}
+
+
+async function addToCart() {
+    const addToCartBtn = document.getElementById('add-to-cart-btn')
+    try {
+        const response = await fetch('https://dummyjson.com/carts/add', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({})
+        })
+            .then(res => res.json())
+            .then(console.log);
+    } catch (error) {
+        console.error(error);
+    }
 }
 generateData(getAllCategories, renderCategoriesWithListeners)
 generateData(getAllProducts, displayProducts)

@@ -1,10 +1,28 @@
-
-
 .card {
-    margin-bottom: 20px;
-  }
+  margin-bottom: 20px;
+  position: relative;
+  overflow: hidden;
+}
 
-  .w-85{
-    width: 85%;
-    margin: auto;
-  }
+.w-85 {
+  width: 85%;
+  margin: auto;
+}
+
+.cart {
+  position: absolute;
+  top: 15px;
+  right: -30px;
+  width: 50px;
+  height: 50px;
+  opacity: 0;
+  transition: 0.4s;
+  -webkit-transition: 0.4s;
+  -moz-transition: 0.4s;
+  -ms-transition: 0.4s;
+  -o-transition: 0.4s;
+}
+.card:hover .cart{
+  opacity: 1;
+  right: 15px;
+}
