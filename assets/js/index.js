@@ -1,4 +1,6 @@
 const searchProductForm = document.getElementById('search-product-form')
+const searchProductCategoryForm = document.getElementById('search-product-category-form')
+let currentCategory = 'All'
 async function getAllCategories() {
     try {
         const response = await fetch('https://dummyjson.com/products/categories');
@@ -16,10 +18,10 @@ async function getAllProducts() {
         console.error(error);
     }
 }
-async function getProductsByCategory(category) {    
+async function getProductsByCategory(category) {
     try {
         const response = await fetch(`https://dummyjson.com/products/category/${category}`);
-        const products =  await response.json();
+        const products = await response.json();
         return products.products
     } catch (error) {
         console.error(error);
@@ -39,7 +41,7 @@ async function searchProduct(query) {
 function displayProducts(products) {
     const productsSection = document.getElementById('products');
     let result = '';
-    if(products.length > 0){
+    if (products.length > 0) {
         for (const product of products) {
             result += `
             <div class="col-md-4">
@@ -58,10 +60,10 @@ function displayProducts(products) {
             </div>
             `;
         }
-    }else{
+    } else {
         result = '<div class="d-flex justify-content-center"><p>No data found :)</p></div>'
     }
-   
+
     productsSection.innerHTML = result;
 }
 
@@ -73,9 +75,14 @@ function renderCategoriesWithListeners(categories) {
         result += `<button class="list-group-item list-group-item-action">${category}</button>`;
     }
     categoriesList.innerHTML = result;
-    let  listGroupItems = document.querySelectorAll('.list-group button');
+    let listGroupItems = document.querySelectorAll('.list-group button');
     addClickListenerToBtn(listGroupItems);
 }
+
+async function searchProductsByCategory(products) {
+    return products.filter((product) => product.category == currentCategory)
+}
+
 
 
 searchProductForm.addEventListener('submit', async (e) => {
@@ -87,18 +94,26 @@ searchProductForm.addEventListener('submit', async (e) => {
 });
 
 
+searchProductCategoryForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const query = searchProductCategoryForm.elements[0].value;
+    console.log(query);
+    const products = await searchProduct(query);
+    searchProductsByCategory(products)
+    displayProducts(products);
+});
+
 async function generateData(callback, display) {
     let data = await callback()
     display(data)
 }
-generateData(getAllCategories, renderCategoriesWithListeners)
-generateData(getAllProducts, displayProducts)
-
-function addClickListenerToBtn(listGroupItems){
+function addClickListenerToBtn(listGroupItems) {
     listGroupItems.forEach((listGroupItem) => {
         listGroupItem.addEventListener('click', async () => {
             const category = listGroupItem.textContent.trim()
-            if(category ==="All"){
+            currentCategory = category
+            if (category === "All") {
+                currentCategory = "All"
                 console.log("d");
                 generateData(getAllProducts, displayProducts)
             }
@@ -107,4 +122,5 @@ function addClickListenerToBtn(listGroupItems){
         })
     })
 }
-
+generateData(getAllCategories, renderCategoriesWithListeners)
+generateData(getAllProducts, displayProducts)
