@@ -98,6 +98,10 @@ function addClickListenerToBtn(listGroupItems){
     listGroupItems.forEach((listGroupItem) => {
         listGroupItem.addEventListener('click', async () => {
             const category = listGroupItem.textContent.trim()
+            if(category ==="All"){
+                console.log("d");
+                generateData(getAllProducts, displayProducts)
+            }
             const products = await getProductsByCategory(category);
             displayProducts(products)
         })
