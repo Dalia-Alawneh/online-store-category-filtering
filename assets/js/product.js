@@ -1,7 +1,9 @@
-const queryString = window.location.search;
-const params = new URLSearchParams(queryString)
-const id = params.get('id');
-console.log(id);
+function getId() {
+    const queryString = window.location.search;
+    const params = new URLSearchParams(queryString)
+    return params.get('id');
+}
+
 
 async function getProductById(id) {
     try {
@@ -13,14 +15,15 @@ async function getProductById(id) {
 }
 
 async function generateProduct() {
-    let product = await getProductById(id)
+    const id = getId()
+    const product = await getProductById(id)
     displayProduct(product)
 }
-generateProduct() 
+generateProduct()
 function displayProduct(product) {
     console.log(product);
     const productSection = document.getElementById('product');
-    result =`
+    result = `
     <div class="card p-3">
     <div class="row no-gutters">
         <div class="col-md-4">
@@ -38,13 +41,12 @@ function displayProduct(product) {
                 <p class="card-text">Category: ${product.category}</p>
         <div class="col-md-12">
             <div class="row">
-            ${
-                product.images?.map((img) => {
-                return `<div class="col-md-2">
+            ${product.images?.map((img) => {
+        return `<div class="col-md-2">
                     <img class="w-100" src="${img}"/>
                 </div>`
-            })
-            }
+    })
+        }
         </div>
         </div>
     </div>

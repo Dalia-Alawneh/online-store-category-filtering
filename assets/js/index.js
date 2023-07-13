@@ -41,12 +41,13 @@ async function searchProduct(query) {
 function displayProducts(products) {
     const productsSection = document.getElementById('products');
     let result = '';
+    console.log(products);
     if (products.length > 0) {
         for (const product of products) {
             result += `
             <div class="col-md-4">
                 <div class="card p-2">
-                    <a href="pages/product.html?id=${product.id}"><img src="${product.images[0]}" class="card-img-top img-fluid img-responsive" alt="Image 1"></a>
+                    <a class="img-link" href="pages/product.html?id=${product.id}"><img src="${product.images[0]}" class="card-img-top img-fluid img-responsive" alt="Image 1"></a>
                     <div class="card-body">
                         <div class="d-flex align-items-center justify-content-between">
                             <div>
@@ -55,8 +56,10 @@ function displayProducts(products) {
                             </div>
                             <div>
                                 <span class="d-block">$ ${product.price}</span>
-                                <button id="add-to-cart-btn" class="cart btn bg-warning text-white"><img class="w-100" src="assets/img/shopping-cart.png"/></button>
                             </div>
+                        </div>
+                        <div class="actions">
+                            <button id="add-to-cart-btn" class="cart btn bg-warning text-white"><img class="w-100" src="assets/img/shopping-cart.png"/></button>
                         </div>
                     </div>
                 </div>
@@ -82,7 +85,7 @@ function renderCategoriesWithListeners(categories) {
     addClickListenerToBtn(listGroupItems);
 }
 
-async function searchProductsByCategory(products) {
+function searchProductsByCategory(products) {
     return products.filter((product) => product.category == currentCategory)
 }
 
@@ -102,14 +105,17 @@ searchProductCategoryForm.addEventListener('submit', async (e) => {
     const query = searchProductCategoryForm.elements[0].value;
     console.log(query);
     const products = await searchProduct(query);
-    searchProductsByCategory(products)
-    displayProducts(products);
+    const filteredProducts = searchProductsByCategory(products)
+    console.log(filteredProducts);
+    displayProducts(filteredProducts);
 });
 
 async function generateData(callback, display) {
-    let data = await callback()
+    const data = await callback()
     display(data)
 }
+
+
 function addClickListenerToBtn(listGroupItems) {
     listGroupItems.forEach((listGroupItem) => {
         listGroupItem.addEventListener('click', async () => {
@@ -119,27 +125,13 @@ function addClickListenerToBtn(listGroupItems) {
                 currentCategory = "All"
                 console.log("d");
                 generateData(getAllProducts, displayProducts)
+            } else {
+                const products = await getProductsByCategory(category);
+                displayProducts(products)
             }
-            const products = await getProductsByCategory(category);
-            displayProducts(products)
         })
     })
 }
 
-
-async function addToCart() {
-    const addToCartBtn = document.getElementById('add-to-cart-btn')
-    try {
-        const response = await fetch('https://dummyjson.com/carts/add', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({})
-        })
-            .then(res => res.json())
-            .then(console.log);
-    } catch (error) {
-        console.error(error);
-    }
-}
 generateData(getAllCategories, renderCategoriesWithListeners)
 generateData(getAllProducts, displayProducts)
